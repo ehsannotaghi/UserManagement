@@ -1,0 +1,14 @@
+[
+  {
+    "username": "john_doe",
+    "walletaddress": "0x123456789abcdef",
+    "email": "john@example.com",
+    "isemailverified": "0",
+    "token": "some-token",
+    "referer": "referrer-id",
+    "RolePremission": "Premium",
+    "coins": "100",
+    "Tether": "50",
+    "CreationDate": "2024-05-19T12:34:56.789Z"
+  }
+]
