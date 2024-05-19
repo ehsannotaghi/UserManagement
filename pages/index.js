@@ -16,6 +16,7 @@ const Home = () => {
     Tether: '0',
   });
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -66,6 +67,7 @@ const Home = () => {
   const handleEdit = (user) => {
     setFormData(user);
     setIsUpdate(true);
+    setIsSignIn(false);
   };
 
   const resetForm = () => {
@@ -82,6 +84,7 @@ const Home = () => {
       Tether: '0',
     });
     setIsUpdate(false);
+    setIsSignIn(false);
   };
 
   const handleSignIn = async (e) => {
@@ -101,15 +104,27 @@ const Home = () => {
   return (
     <div className="container mt-5">
       <h1>User Management</h1>
-      <form onSubmit={isUpdate ? handleSubmit : handleSignIn}>
-        <div className="mb-3">
-          <label className="form-label">Username</label>
-          <input type="text" className="form-control" name="username" value={formData.username} onChange={handleInputChange} required />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Wallet Address</label>
-          <input type="text" className="form-control" name="walletaddress" value={formData.walletaddress} onChange={handleInputChange} required />
-        </div>
+      <div className="mb-3">
+        <button className="btn btn-primary me-2" onClick={() => { resetForm(); setIsSignIn(false); }}>
+          Add User
+        </button>
+        <button className="btn btn-secondary" onClick={() => { resetForm(); setIsSignIn(true); }}>
+          Sign In
+        </button>
+      </div>
+      <form onSubmit={isSignIn ? handleSignIn : handleSubmit}>
+        {!isSignIn && (
+          <>
+            <div className="mb-3">
+              <label className="form-label">Username</label>
+              <input type="text" className="form-control" name="username" value={formData.username} onChange={handleInputChange} required />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Wallet Address</label>
+              <input type="text" className="form-control" name="walletaddress" value={formData.walletaddress} onChange={handleInputChange} required />
+            </div>
+          </>
+        )}
         <div className="mb-3">
           <label className="form-label">Email</label>
           <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} required />
@@ -118,7 +133,7 @@ const Home = () => {
           <label className="form-label">Token</label>
           <input type="text" className="form-control" name="token" value={formData.token} onChange={handleInputChange} required />
         </div>
-        {isUpdate && (
+        {isUpdate && !isSignIn && (
           <>
             <div className="mb-3">
               <label className="form-label">Referer</label>
@@ -139,7 +154,7 @@ const Home = () => {
           </>
         )}
         <button type="submit" className="btn btn-primary">
-          {isUpdate ? 'Update User' : 'Sign In'}
+          {isSignIn ? 'Sign In' : isUpdate ? 'Update User' : 'Add User'}
         </button>
         {isUpdate && (
           <button type="button" className="btn btn-secondary ms-2" onClick={resetForm}>
